@@ -37,7 +37,7 @@ mutable struct Task <: AbstractModel
 
     ### VALIDATION
     # validator = ModelValidator([
-    #   ValidationRule(:title, TasksValidator.not_empty)
+    #   ValidationRule(:content, TasksValidator.not_empty)
     # ]),
 
     ### CALLBACKS
@@ -62,7 +62,7 @@ mutable struct Task <: AbstractModel
 
   ) = new("tasks", "id", Symbol[],                                                ### INTERNALS
           id, content, done,                                                            ### FIELDS
-          # validator,                                                                  ### VALIDATION
+          # validator,                                                                    ### VALIDATION
           # before_save, after_save, on_save, on_find, after_find                       ### CALLBACKS
           # scopes                                                                      ### SCOPES
           )
