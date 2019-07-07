@@ -7,7 +7,8 @@ using Tasks
 
 
 function index()
-    html!(:tasks, :index, tasks = SearchLight.all(Tasks.Task))
+    tasks = sort(SearchLight.all(Tasks.Task), by = t -> t.done)
+    html!(:tasks, :index, tasks = tasks)
 end
 
 function new()

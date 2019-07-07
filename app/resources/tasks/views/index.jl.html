@@ -9,6 +9,19 @@
       </tr>
     </thead>
     <tbody>
+        <tr>
+            <td>
+              内容:
+            </td>
+            <td>
+              <label>
+                <input type="text" name="task_content" size="50" />
+              </label>
+            </td>
+            <td>
+              <input type="submit" value="作成" class="btn btn-sm btn-primary" />
+            </td>
+        </tr>
       <%
         if length(@vars(:tasks)) == 0
           "タスクがありません。"
@@ -33,19 +46,6 @@
           end
         end
       %>
-        <tr>
-            <td>
-              内容:
-            </td>
-            <td>
-              <label>
-                <input type="text" name="task_content" size="50" />
-              </label>
-            </td>
-            <td>
-              <input type="submit" value="作成" class="btn btn-sm btn-primary" />
-            </td>
-        </tr>
     </tbody>
   </table>
 </form>
