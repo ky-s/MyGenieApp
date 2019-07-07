@@ -1,0 +1,63 @@
+<h1>TODO List</h1>
+<form action="$(Genie.Router.link_to(:create_task))" method="POST">
+  <table class="table" style="width: 60%">
+    <thead>
+      <tr>
+        <th style="width: 10%">done</th>
+        <th style="">content</th>
+        <th style="width: 10%">action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%
+        if length(@vars(:tasks)) == 0
+          "タスクがありません。"
+        else
+          @foreach(@vars(:tasks)) do task
+            """
+            <tr>
+              <td>
+                <input type='checkbox' id="$(get(task.id))" class="checkbox" $(task.done ? "checked" : "") />
+              </td>
+              <td>
+                <span id="content_$(get(task.id))" style="text-decoration: $(task.done ? "line-through" : "none")">$(task.content)</span>
+              </td>
+              <td>
+                <form action="$(Genie.Router.link_to(:destroy_task))" method="POST" class="form-inline">
+                    <input type="hidden" name="task_id" value="$(get(task.id))" />
+                    <input type="submit" value="削除" class="btn btn-sm btn-secondary" />
+                </form>
+              </td>
+            </tr>
+            """
+          end
+        end
+      %>
+        <tr>
+            <td>
+              内容:
+            </td>
+            <td>
+              <label>
+                <input type="text" name="task_content" size="50" />
+              </label>
+            </td>
+            <td>
+              <input type="submit" value="作成" class="btn btn-sm btn-primary" />
+            </td>
+        </tr>
+    </tbody>
+  </table>
+</form>
+
+<script>
+    \$(".checkbox").on("change", function() {
+            \$.post("$(Genie.Router.link_to(:update_task))",
+                    { task_id: \$(this).attr("id"), task_done: \$(this).prop("checked") });
+            if (\$(this).prop("checked")) {
+                \$("#content_" + \$(this).attr("id")).css("text-decoration", "line-through");
+            } else {
+                \$("#content_" + \$(this).attr("id")).css("text-decoration", "none");
+            }
+    });
+</script>

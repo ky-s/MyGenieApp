@@ -1,0 +1,11 @@
+<form action="$(Genie.Router.link_to(:create_task))" method="POST">
+  <div>
+    <label>
+      内容:<input type="text" name="task_content"/>
+    </label>
+  </div>
+  <div>
+    <input type="submit" value="作成" />
+  </div>
+</form>
+<a href="$(Genie.Router.link_to(:get_tasks))">戻る</a>

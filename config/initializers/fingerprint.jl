@@ -1,0 +1,1 @@
+const ASSET_FINGERPRINT = "d2be8332b8999e6db5fd"

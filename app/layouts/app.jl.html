@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>TODOLIST</title>
+    <link rel="stylesheet" href="/css/application.css" />
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <script src="/js/application.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  </head>
+  <body>
+    <%
+      @yield
+    %>
+    <% if Main.UserApp.ENV["GENIE_ENV"] == "dev" %>
+      <script src="http://localhost:3000/dist/application.js"></script>
+    <% else %>
+      <script src="/dist/application$(Main.UserApp.ASSET_FINGERPRINT).js"></script>
+    <% end %>
+  </body>
+</html>
