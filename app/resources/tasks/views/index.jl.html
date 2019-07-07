@@ -3,14 +3,16 @@
     <h3>TODO List</h3>
   </div>
   <div class="card-body">
-    <div>
-      <form action="$(Genie.Router.link_to(:create_task))" method="POST">
-        <label>
-          <input id="todo-content" class="form-control" type="text" name="task_content" size="90" />
-        </label>
-        <input type="submit" value="Add" class="btn btn-sm btn-outline-primary m-2" />
-      </form>
-    </div>
+    <form action="$(Genie.Router.link_to(:create_task))" method="POST">
+      <div class="input-group mb-3">
+        <input id="todo-content" class="form-control" type="text" name="task_content" placeholder="Write down your TODO"/>
+        <div class="input-group-append">
+          <input type="submit" value="Add" class="btn btn-sm btn-outline-primary"/>
+        </div>
+      </div>
+    </form>
+    <input type="checkbox" class="checkbox" id="done-display-checkbox" checked>
+    <small class="mx-1">show done</small>
 
     <table class="table">
       <thead>
@@ -30,7 +32,7 @@
               <tr>
                 <td>
                   <input type="checkbox" id="$(get(task.id))"
-                         class="checkbox" $(task.done ? "checked" : "") />
+                         class="checkbox done-checkbox" $(task.done ? "checked" : "") />
                 </td>
                 <td>
                   <span id="content_$(get(task.id))"
@@ -58,13 +60,21 @@
 </div>
 
 <script>
-  \$(".checkbox").on("change", function() {
+  \$(".done-checkbox").on("change", function() {
     \$.post("$(Genie.Router.link_to(:update_task))",
             { task_id: \$(this).attr("id"), task_done: \$(this).prop("checked") });
     if (\$(this).prop("checked")) {
         \$("#content_" + \$(this).attr("id")).css("text-decoration", "line-through");
     } else {
         \$("#content_" + \$(this).attr("id")).css("text-decoration", "none");
+    }
+  });
+
+  \$("#done-display-checkbox").on("change", function() {
+    if(\$(this).prop("checked")) {
+      \$("tr:has(.done-checkbox:checked)").show();
+    } else {
+      \$("tr:has(.done-checkbox:checked)").hide();
     }
   });
 
