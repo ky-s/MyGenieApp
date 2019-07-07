@@ -17,8 +17,6 @@ bin/repl
 
 julia> using SearchLight
 julia> SearchLight.Configuration.load_db_connection() |> SearchLight.Database.connect!
-julia> SearchLight.db_init()
-julia> SearchLight.Migration.last_up()
 ```
 
 ## boot Server
