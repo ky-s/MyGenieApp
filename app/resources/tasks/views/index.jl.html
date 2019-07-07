@@ -3,61 +3,57 @@
     <h3>TODO List</h3>
   </div>
   <div class="card-body">
-    <form action="$(Genie.Router.link_to(:create_task))" method="POST">
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="width: 10%">done</th>
-            <th style="">content</th>
-            <th style="width: 10%">action</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td></td>
+    <div>
+      <form action="$(Genie.Router.link_to(:create_task))" method="POST">
+        <label>
+          <input id="todo-content" class="form-control" type="text" name="task_content" size="90" />
+        </label>
+        <input type="submit" value="Add" class="btn btn-sm btn-outline-primary m-2" />
+      </form>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 10%">done</th>
+          <th style="">content</th>
+          <th style="width: 10%">action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%
+          if length(@vars(:tasks)) == 0
+            "タスクがありません。"
+          else
+            @foreach(@vars(:tasks)) do task
+              """
+              <tr>
                 <td>
-                  <label>
-                    <input class="form-control" type="text" name="task_content" size="80" />
-                  </label>
+                  <input type="checkbox" id="$(get(task.id))"
+                         class="checkbox" $(task.done ? "checked" : "") />
                 </td>
                 <td>
-                  <input type="submit" value="Add" class="btn btn-block btn-sm btn-outline-primary" />
+                  <span id="content_$(get(task.id))"
+                        style="text-decoration: $(task.done ? "line-through" : "none")">
+
+                        $(task.content)
+                  </span>
                 </td>
-            </tr>
-          <%
-            if length(@vars(:tasks)) == 0
-              "タスクがありません。"
-            else
-              @foreach(@vars(:tasks)) do task
-                """
-                <tr>
-                  <td>
-                    <input type="checkbox" id="$(get(task.id))"
-                           class="checkbox" $(task.done ? "checked" : "") />
-                  </td>
-                  <td>
-                    <span id="content_$(get(task.id))"
-                          style="text-decoration: $(task.done ? "line-through" : "none")">
+                <td>
+                  <form action="$(Genie.Router.link_to(:destroy_task))" method="POST"
+                        onSubmit="return confirm('Are you sure?');">
 
-                          $(task.content)
-                    </span>
-                  </td>
-                  <td>
-                    <form action="$(Genie.Router.link_to(:destroy_task))" method="POST"
-                          onSubmit="return confirm('Are you sure?');">
-
-                        <input type="hidden" name="task_id" value="$(get(task.id))" />
-                        <input type="submit" value="Delete" class="btn btn-block btn-sm btn-outline-danger" />
-                    </form>
-                  </td>
-                </tr>
-                """
-              end
+                      <input type="hidden" name="task_id" value="$(get(task.id))" />
+                      <input type="submit" value="Delete" class="btn btn-block btn-sm btn-outline-danger" />
+                  </form>
+                </td>
+              </tr>
+              """
             end
-          %>
-        </tbody>
-      </table>
-    </form>
+          end
+        %>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -71,4 +67,6 @@
         \$("#content_" + \$(this).attr("id")).css("text-decoration", "none");
     }
   });
+
+  \$("#todo-content").focus();
 </script>
