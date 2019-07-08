@@ -11,5 +11,7 @@ end
 
 route("/tasks", TasksController.index, named = :get_tasks)
 route("/tasks/create", TasksController.create, method = POST, named = :create_task)
+route("/tasks/edit", TasksController.edit, named = :edit_task)
 route("/tasks/update", TasksController.update, method = POST, named = :update_task)
-route("/tasks/destroy", TasksController.destroy, method = POST, named = :destroy_task)
+route("/tasks/update_status", TasksController.ajax_update_status, method = POST, named = :ajax_update_status_task)
+route("/tasks/destroy", TasksController.ajax_destroy, method = POST, named = :ajax_destroy_task)

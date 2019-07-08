@@ -16,17 +16,28 @@ function new()
 end
 
 function create()
-    @show @params
     Tasks.Task(content = @params(:task_content), done = false, deadline = Date(@params(:task_deadline))) |> save && redirect_to(:get_tasks)
 end
 
+function edit()
+    task = SearchLight.find_one!!(Tasks.Task, @params(:task_id))
+    html!(:tasks, :edit, task = task)
+end
+
 function update()
+    task = SearchLight.find_one!!(Tasks.Task, @params(:task_id))
+    task.content  = @params(:task_content)
+    task.deadline = @params(:task_deadline)
+    save(task) && redirect_to(:get_tasks)
+end
+
+function ajax_update_status()
     task = SearchLight.find_one!!(Tasks.Task, @params(:task_id))
     task.done = @params(:task_done) == "true"
     save(task)
 end
 
-function destroy()
+function ajax_destroy()
     SearchLight.find_one!!(Tasks.Task, @params(:task_id)) |> delete
     true
 end

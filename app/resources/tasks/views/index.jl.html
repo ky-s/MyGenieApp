@@ -23,7 +23,7 @@
           <th class="th-sm" style="width: 7%">done</th>
           <th class="th-sm" style="width: 16%">deadline</th>
           <th class="th-sm" style="">content</th>
-          <th class="th-sm" style="width: 9%">action</th>
+          <th class="th-sm" style="width: 15%">action</th>
         </tr>
       </thead>
       <tbody>
@@ -49,7 +49,10 @@
                   </span>
                 </td>
                 <td>
-                  <button data-id="$(get(task.id))" class="btn btn-block btn-sm btn-danger delete-button">Delete</button>
+                  <div class="btn-group">
+                    <a href="$(Genie.Router.link_to(:edit_task, task_id = get(task.id)))" class="btn btn-sm btn-success">Edit</a>
+                    <button data-id="$(get(task.id))" class="btn btn-sm btn-danger delete-button">Delete</button>
+                  </div>
                 </td>
               </tr>
               """
@@ -79,7 +82,7 @@
 
   function ajaxUpdateStatus(id, done) {
     \$.ajax({
-      url: "$(Genie.Router.link_to(:update_task))",
+      url: "$(Genie.Router.link_to(:ajax_update_status_task))",
       data: { task_id: id, task_done: done },
       type: "POST",
       dataType: 'json'
@@ -99,7 +102,7 @@
 
   function ajaxDestroy(id) {
     \$.ajax({
-      url: "$(Genie.Router.link_to(:destroy_task))",
+      url: "$(Genie.Router.link_to(:ajax_destroy_task))",
       data: { task_id: id },
       type: "POST",
       dataType: 'json'
@@ -119,6 +122,13 @@
     } else {
       \$("tr:has(.done-checkbox:checked)").hide();
     }
+  });
+
+  \$(".done-checkbox").click(function(event){
+    event.stopPropagation();
+  });
+  \$("td:has(.done-checkbox)").click(function(){
+    \$(this).children('.done-checkbox').trigger('click');
   });
 
   \$("#todo-content").focus();
