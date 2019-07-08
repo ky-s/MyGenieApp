@@ -1,6 +1,6 @@
 module Tasks
 
-using SearchLight, Nullables, SearchLight.Validation, TasksValidator
+using SearchLight, Nullables, SearchLight.Validation, TasksValidator, Dates
 
 export Task
 
@@ -14,6 +14,7 @@ mutable struct Task <: AbstractModel
   id::DbId
   content::String
   done::Bool
+  deadline::Date
 
   ### VALIDATION
   # validator::ModelValidator
@@ -33,7 +34,8 @@ mutable struct Task <: AbstractModel
     ### FIELDS
     id = DbId(),
     content = "",
-    done = false
+    done = false,
+    deadline = Date(now())
 
     ### VALIDATION
     # validator = ModelValidator([
@@ -61,17 +63,11 @@ mutable struct Task <: AbstractModel
     # scopes = Dict{Symbol,Vector{SearchLight.SQLWhereEntity}}()
 
   ) = new("tasks", "id", Symbol[],                                                ### INTERNALS
-          id, content, done,                                                            ### FIELDS
-          # validator,                                                                    ### VALIDATION
+          id, content, done, deadline                                                   ### FIELDS
+          # validator,                                                                  ### VALIDATION
           # before_save, after_save, on_save, on_find, after_find                       ### CALLBACKS
           # scopes                                                                      ### SCOPES
           )
-end
-
-function seed()
-    Task(content = "塩を買う", done = true)        |> SearchLight.save!
-    Task(content = "簡易書留を出す", done = false) |> SearchLight.save!
-    Task(content = "本を5冊読む", done = false)    |> SearchLight.save!
 end
 
 end
