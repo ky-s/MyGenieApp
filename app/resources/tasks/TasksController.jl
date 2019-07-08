@@ -16,6 +16,7 @@ function new()
 end
 
 function create()
+    @show @params
     Tasks.Task(content = @params(:task_content), done = false, deadline = Date(@params(:task_deadline))) |> save && redirect_to(:get_tasks)
 end
 
@@ -27,7 +28,7 @@ end
 
 function destroy()
     SearchLight.find_one!!(Tasks.Task, @params(:task_id)) |> delete
-    redirect_to(:get_tasks)
+    true
 end
 
 end
