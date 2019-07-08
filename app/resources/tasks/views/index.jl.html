@@ -71,15 +71,23 @@
 
 <script>
   \$(".done-checkbox").on("change", function() {
-    \$.post("$(Genie.Router.link_to(:update_task))",
-            { task_id: \$(this).attr("id"), task_done: \$(this).prop("checked") });
-    if (\$(this).prop("checked")) {
-        \$("#content_" + \$(this).attr("id")).css("text-decoration", "line-through");
-        \$("#deadline_" + \$(this).attr("id")).css("text-decoration", "line-through");
-    } else {
-        \$("#content_" + \$(this).attr("id")).css("text-decoration", "none");
-        \$("#deadline_" + \$(this).attr("id")).css("text-decoration", "none");
-    }
+    \$.ajax({
+      url: "$(Genie.Router.link_to(:update_task))",
+      data: { task_id: \$(this).attr("id"), task_done: \$(this).prop("checked") },
+      type: "POST",
+      dataType: 'json'
+    }).then(
+      data => {
+        if (\$(this).prop("checked")) {
+            \$("#content_" + \$(this).attr("id")).css("text-decoration", "line-through");
+            \$("#deadline_" + \$(this).attr("id")).css("text-decoration", "line-through");
+        } else {
+            \$("#content_" + \$(this).attr("id")).css("text-decoration", "none");
+            \$("#deadline_" + \$(this).attr("id")).css("text-decoration", "none");
+        }
+      },
+      error => alert("更新に失敗しました。")
+    );
   });
 
   \$("#done-display-checkbox").on("change", function() {

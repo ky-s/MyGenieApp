@@ -22,7 +22,7 @@ end
 function update()
     task = SearchLight.find_one!!(Tasks.Task, @params(:task_id))
     task.done = @params(:task_done) == "true"
-    save(task) && redirect_to(:get_tasks)
+    save(task)
 end
 
 function destroy()

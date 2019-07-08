@@ -10,7 +10,6 @@ route("/hello") do
 end
 
 route("/tasks", TasksController.index, named = :get_tasks)
-route("/tasks/new", TasksController.new, named = :new_task)
 route("/tasks/create", TasksController.create, method = POST, named = :create_task)
 route("/tasks/update", TasksController.update, method = POST, named = :update_task)
 route("/tasks/destroy", TasksController.destroy, method = POST, named = :destroy_task)
