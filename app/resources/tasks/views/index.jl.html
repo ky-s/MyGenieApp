@@ -13,8 +13,8 @@
       </div>
     </form>
     <div class="custom-control custom-switch">
-      <input type="checkbox" class="custom-control-input" id="done-display-checkbox" checked>
       <% """
+      <input type="checkbox" class="custom-control-input" id="done-display-checkbox" $(@vars(:show_done) ? "checked" : "") >
         <label  class="custom-control-label"for="done-display-checkbox">show done</label>
          """ %>
     </div>
@@ -118,13 +118,24 @@
     );
   }
 
-  \$("#done-display-checkbox").on("change", function() {
-    if(\$(this).prop("checked")) {
+
+  function switchShowDone(checked) {
+    if(\$("#done-display-checkbox").prop("checked")) {
       \$("tr:has(.done-checkbox:checked)").show();
     } else {
       \$("tr:has(.done-checkbox:checked)").hide();
     }
-  });
+
+    \$.ajax({
+      url: "$(Genie.Router.link_to(:ajax_change_show_done))",
+      data: { show_done: \$("#done-display-checkbox").prop("checked") },
+      type: "POST",
+      dataType: 'json'
+    });
+  }
+  switchShowDone();
+
+  \$("#done-display-checkbox").on("change", switchShowDone);
 
   \$(".done-checkbox").click(function(event){
     event.stopPropagation();
