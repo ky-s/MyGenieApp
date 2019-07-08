@@ -11,7 +11,7 @@ using Dates
 convert(type::Type{Dates.Date}, datestr::String) = Date(datestr)
 
 function index()
-    tasks = sort(SearchLight.all(Tasks.Task), by = t -> t.done)
+    tasks = sort(SearchLight.all(Tasks.Task), by = t -> (t.done, t.deadline))
     html!(:tasks, :index, tasks = tasks, today = Date(now()))
 end
 

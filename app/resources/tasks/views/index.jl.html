@@ -37,16 +37,12 @@
                          class="checkbox done-checkbox" $(task.done ? "checked" : "") />
                 </td>
                 <td>
-                  <span id="deadline_$(get(task.id))"
-                        style="text-decoration: $(task.done ? "line-through" : "none")">
-
+                  <span id="deadline_$(get(task.id))" class=$(task.done ? "done" : task.deadline <= @vars(:today) ? "deadline" : "doing")>
                         $(task.deadline)
                   </span>
                 </td>
                 <td>
-                  <span id="content_$(get(task.id))"
-                        style="text-decoration: $(task.done ? "line-through" : "none")">
-
+                  <span id="content_$(get(task.id))" class=$(task.done ? "done" : task.deadline <= @vars(:today) ? "deadline" : "doing")>
                         $(task.content)
                   </span>
                 </td>
@@ -67,6 +63,11 @@
     </table>
   </div>
 </div>
+
+<style>
+.done { text-decoration: line-through; }
+.deadline { color: red; font-weight: bold; }
+</style>
 
 <script>
   \$(".done-checkbox").on("change", function() {
