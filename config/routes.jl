@@ -6,7 +6,7 @@ route("/") do
 end
 
 route("/hello") do
-    "Welcome to Genie!"
+    "<h1>Welcome to Genie!</h1>"
 end
 
 route("/tasks", TasksController.index, named = :get_tasks)

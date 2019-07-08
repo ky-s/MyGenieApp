@@ -8,7 +8,7 @@
         <input class="form-control" type="date" name="task_deadline" value="$(@vars(:today))"/>
         <input id="todo-content" class="form-control" type="text" name="task_content" placeholder="Write down your TODO" style="width: 50%" />
         <div class="input-group-append">
-          <input type="submit" value="Add" class="btn btn-sm btn-outline-primary"/>
+          <input type="submit" value="Create" class="btn btn-sm btn-primary"/>
         </div>
       </div>
     </form>
@@ -19,9 +19,9 @@
       <thead>
         <tr>
           <th class="th-sm" style="width: 7%">done</th>
-          <th class="th-sm" style="width: 20%">deadline</th>
+          <th class="th-sm" style="width: 16%">deadline</th>
           <th class="th-sm" style="">content</th>
-          <th class="th-sm" style="width: 10%">action</th>
+          <th class="th-sm" style="width: 9%">action</th>
         </tr>
       </thead>
       <tbody>
@@ -48,10 +48,10 @@
                 </td>
                 <td>
                   <form action="$(Genie.Router.link_to(:destroy_task))" method="POST"
-                        onSubmit="return confirm('Are you sure?');">
+                        onSubmit="return confirm('Are you sure?');" style="height: 20px">
 
                       <input type="hidden" name="task_id" value="$(get(task.id))" />
-                      <input type="submit" value="Delete" class="btn btn-block btn-sm btn-outline-danger" />
+                      <input type="submit" value="Delete" class="btn btn-block btn-sm btn-danger" />
                   </form>
                 </td>
               </tr>
@@ -65,8 +65,8 @@
 </div>
 
 <style>
-.done { text-decoration: line-through; }
-.deadline { color: red; font-weight: bold; }
+  .done { text-decoration: line-through; }
+  .deadline { color: red; font-weight: bold; }
 </style>
 
 <script>
