@@ -44,11 +44,12 @@ function ajax_destroy()
 end
 
 function ajax_change_show_done()
-    open(fp -> write(fp, string((@params(:show_done) == "true") + 0)), "show_done", "w")
+    open(fp -> write(fp, string((@params(:show_done) == "true") + 0)), ".show_done", "w")
 end
 
 function show_done()
-     open(fp -> read(fp, String), "show_done", "r") == "1"
+    isfile(".show_done") || touch(".show_done")
+     open(fp -> read(fp, String), ".show_done", "r") == "1"
 end
 
 end

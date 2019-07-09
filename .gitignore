@@ -6,6 +6,7 @@ docs/build
 log/*
 session/*
 !*.gitkeep
+.show_done
 
 # Vagrant
 .vagrant
