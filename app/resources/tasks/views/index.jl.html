@@ -19,50 +19,52 @@
          """ %>
     </div>
 
-    <table class="table table-hover">
-      <thead class="thead-dark">
-        <tr>
-          <th class="th-sm" style="width: 7%">done</th>
-          <th class="th-sm" style="width: 16%">deadline</th>
-          <th class="th-sm" style="">content</th>
-          <th class="th-sm" style="width: 15%">action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%
-          if length(@vars(:tasks)) == 0
-            "タスクがありません。"
-          else
-            @foreach(@vars(:tasks)) do task
-              """
-              <tr id="tr_$(get(task.id))" data-id="$(get(task.id))">
-                <td>
-                  <input type="checkbox" id="$(get(task.id))" data-id="$(get(task.id))"
-                         class="checkbox done-checkbox" $(task.done ? "checked" : "") />
-                </td>
-                <td>
-                  <span id="deadline_$(get(task.id))" class=$(task.done ? "done" : task.deadline <= @vars(:today) ? "deadline" : "doing")>
-                        $(task.deadline)
-                  </span>
-                </td>
-                <td>
-                  <span id="content_$(get(task.id))" class=$(task.done ? "done" : task.deadline <= @vars(:today) ? "deadline" : "doing")>
-                        $(task.content)
-                  </span>
-                </td>
-                <td>
-                  <div class="btn-group">
-                    <a href="$(Genie.Router.link_to(:edit_task, task_id = get(task.id)))" class="btn btn-sm btn-success">Edit</a>
-                    <button data-id="$(get(task.id))" class="btn btn-sm btn-danger delete-button">Delete</button>
-                  </div>
-                </td>
-              </tr>
-              """
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th class="th-sm" style="width: 7%">done</th>
+            <th class="th-sm" style="width: 16%">deadline</th>
+            <th class="th-sm" style="">content</th>
+            <th class="th-sm" style="width: 15%">action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%
+            if length(@vars(:tasks)) == 0
+              "タスクがありません。"
+            else
+              @foreach(@vars(:tasks)) do task
+                """
+                <tr id="tr_$(get(task.id))" data-id="$(get(task.id))" class=$(task.done ? "table-success" : "")>
+                  <td>
+                    <input type="checkbox" id="$(get(task.id))" data-id="$(get(task.id))"
+                           class="checkbox done-checkbox" $(task.done ? "checked" : "") />
+                  </td>
+                  <td>
+                    <span id="deadline_$(get(task.id))" class=$(task.done ? "done" : task.deadline <= @vars(:today) ? "deadline" : "doing")>
+                          $(task.deadline)
+                    </span>
+                  </td>
+                  <td>
+                    <span id="content_$(get(task.id))" class=$(task.done ? "done" : task.deadline <= @vars(:today) ? "deadline" : "doing")>
+                          $(task.content)
+                    </span>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <a href="$(Genie.Router.link_to(:edit_task, task_id = get(task.id)))" class="btn btn-sm btn-info">Edit</a>
+                      <button data-id="$(get(task.id))" class="btn btn-sm btn-danger delete-button">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                """
+              end
             end
-          end
-        %>
-      </tbody>
-    </table>
+          %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -91,9 +93,11 @@
     }).then(
       data => {
         if (done) {
+            \$("#tr_" + id).addClass("table-success");
             \$("#content_" + id).css("text-decoration", "line-through");
             \$("#deadline_" + id).css("text-decoration", "line-through");
         } else {
+            \$("#tr_" + id).removeClass("table-success");
             \$("#content_" + id).css("text-decoration", "none");
             \$("#deadline_" + id).css("text-decoration", "none");
         }
