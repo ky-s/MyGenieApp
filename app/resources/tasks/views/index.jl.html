@@ -3,15 +3,8 @@
     <h3>TODO List</h3>
   </div>
   <div class="card-body">
-    <form action="$(Genie.Router.link_to(:create_task))" method="POST">
-      <div class="input-group mb-3">
-        <input class="form-control" type="date" name="task_deadline" value="$(@vars(:today))"/>
-        <input id="todo-content" class="form-control" type="text" name="task_content" placeholder="Write down your TODO" style="width: 55%" />
-        <div class="input-group-append">
-          <input type="submit" value="Create" class="btn btn-sm btn-primary"/>
-        </div>
-      </div>
-    </form>
+    $(@vars(:new_form))
+
     <div class="custom-control custom-switch">
       <% """
       <input type="checkbox" class="custom-control-input" id="done-display-checkbox" $(@vars(:show_done) ? "checked" : "") >

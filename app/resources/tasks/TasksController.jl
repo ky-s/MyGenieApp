@@ -6,10 +6,12 @@ using SearchLight
 using Tasks
 using Dates
 
+using ViewHelper
+
 function index()
     tasks = sort(SearchLight.all(Tasks.Task), by = t -> (t.done, t.deadline))
     @show show_done()
-    html!(:tasks, :index, tasks = tasks, today = Date(now()), show_done = show_done())
+    html!(:tasks, :index, tasks = tasks, today = Date(now()), show_done = show_done(), new_form = task_form(link_to(:create_task)))
 end
 
 function new()
@@ -22,7 +24,7 @@ end
 
 function edit()
     task = SearchLight.find_one!!(Tasks.Task, @params(:task_id))
-    html!(:tasks, :edit, task = task)
+    html!(:tasks, :edit, edit_form = task_form(link_to(:update_task), task = task))
 end
 
 function update()

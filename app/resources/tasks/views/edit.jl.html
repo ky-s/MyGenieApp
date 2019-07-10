@@ -3,16 +3,7 @@
     <h3>TODO Edit</h3>
   </div>
   <div class="card-body">
-    <form action="$(Genie.Router.link_to(:update_task))" method="POST">
-      <div class="input-group mb-3">
-        <input type="hidden" name="task_id" value="$(get(@vars(:task).id))"/>
-        <input class="form-control" type="date" name="task_deadline" value="$(@vars(:task).deadline)"/>
-        <input id="todo-content" class="form-control" type="text" name="task_content" placeholder="Write down your TODO" style="width: 50%" value="$(@vars(:task).content)" />
-        <div class="input-group-append">
-          <input type="submit" value="Update" class="btn btn-sm btn-primary"/>
-        </div>
-      </div>
-    </form>
+    $(@vars(:edit_form))
   </div>
 </div>
 
