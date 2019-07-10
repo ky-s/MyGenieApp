@@ -10,8 +10,8 @@ using ViewHelper
 
 function index()
     tasks = sort(SearchLight.all(Tasks.Task), by = t -> (t.done, t.deadline))
-    @show show_done()
-    html!(:tasks, :index, tasks = tasks, today = Date(now()), show_done = show_done(), new_form = task_form(link_to(:create_task)))
+    tasks_tr = map(task_tr, tasks) |> join
+    html!(:tasks, :index, show_done = show_done(), new_form = task_form(link_to(:create_task)), tasks_tr = tasks_tr)
 end
 
 function new()
