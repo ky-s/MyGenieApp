@@ -3,7 +3,7 @@
     <h3>TODO List</h3>
   </div>
   <div class="card-body">
-    <% "$(@vars(:new_form))" %>
+    $(@vars(:new_form))
 
     <div class="custom-control custom-switch">
       <% """
@@ -36,14 +36,9 @@
 </style>
 
 <script>
-  \$(".done-checkbox").on("change", function() {
+  // change done/undone.
+  \$(document).on("change", ".done-checkbox", function() {
       return ajaxUpdateStatus(\$(this).data("id"), \$(this).prop("checked"));
-  });
-
-  \$(".delete-button").on("click", function() {
-      if (confirm("Are you sure?")) {
-          return ajaxDestroy(\$(this).data("id"));
-      }
   });
 
   function ajaxUpdateStatus(id, done) {
@@ -68,6 +63,13 @@
     );
   }
 
+  // ajax destroy task.
+  \$(document).on("click", ".delete-button", function() {
+      if (confirm("Are you sure?")) {
+          return ajaxDestroy(\$(this).data("id"));
+      }
+  });
+
   function ajaxDestroy(id) {
     \$.ajax({
       url: "$(Genie.Router.link_to(:ajax_destroy_task))",
@@ -84,6 +86,27 @@
     );
   }
 
+  // ajax create task.
+  \$(document).on("submit", "#task-form", function(event) {
+    event.preventDefault(); // canceled normal submit.
+    return ajaxCreate({ task_content: \$("#task-content").val(), task_deadline: \$("#task-deadline").val() });
+  });
+
+  function ajaxCreate(reqData) {
+    \$.ajax({
+      url: "$(Genie.Router.link_to(:ajax_create_task))",
+      data: reqData,
+      type: "POST",
+      dataType: "html",
+      complete: data => {
+        \$("table > tbody").prepend(data.responseText);
+        \$("#task-content").val("").focus();
+      }
+    });
+  }
+
+  // switch show/hidden done task.
+  \$(document).on("change", "#done-display-checkbox", switchShowDone);
 
   function switchShowDone(checked) {
     if(\$("#done-display-checkbox").prop("checked")) {
@@ -99,16 +122,19 @@
       dataType: 'json'
     });
   }
-  switchShowDone();
 
-  \$("#done-display-checkbox").on("change", switchShowDone);
-
-  \$(".done-checkbox").click(function(event){
-    event.stopPropagation();
-  });
-  \$("td:has(.done-checkbox)").click(function(){
+  // trigger checkbox on td clicked.
+  \$(document).on("click", "td:has(.done-checkbox)", function(){
     \$(this).children('.done-checkbox').trigger('click');
   });
 
-  \$("#todo-content").focus();
+  // Stop propagation.
+  \$(document).on("click", ".done-checkbox", function(event){
+    event.stopPropagation();
+  });
+
+
+  // execute on document ready.
+  switchShowDone();
+  \$("#task-content").focus();
 </script>
