@@ -106,9 +106,9 @@
   }
 
   // switch show/hidden done task.
-  \$(document).on("change", "#done-display-checkbox", switchShowDone);
+  \$(document).on("change", "#done-display-checkbox", refreshShowDone);
 
-  function switchShowDone(checked) {
+  function refreshShowDone(checked) {
     if(\$("#done-display-checkbox").prop("checked")) {
       \$("tr:has(.done-checkbox:checked)").show();
     } else {
@@ -135,6 +135,6 @@
 
 
   // execute on document ready.
-  switchShowDone();
+  refreshShowDone();
   \$("#task-content").focus();
 </script>

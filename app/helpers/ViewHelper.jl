@@ -11,7 +11,6 @@ function output_flash(params::Dict{Symbol,Any}) :: String
 end
 
 function task_form(action; task::Tasks.Task = Tasks.Task(content = "", deadline = Date(now())))
-    @show action
     id_field = isnull(task.id) ? "" : """<input type="hidden" name="task_id" value="$(get(task.id))"/>"""
     """
     <form action="$(action)" method="POST" id="task-form">
