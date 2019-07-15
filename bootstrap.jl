@@ -3,7 +3,7 @@
   pkg"activate ."
 
   function main()
-    include(joinpath("src", "MyGenieApp.jl"))
+    include(joinpath("src", "TODOList.jl"))
   end
 
   main()
